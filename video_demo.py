@@ -24,12 +24,12 @@ def main():
     model = init_detector(args.config, args.checkpoint, device=device)
     cap = cv2.VideoCapture(args.video)
 
-    width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
-    height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
-    cap_fps = cap.get(cv2.CAP_PROP_FPS)
-    output_file_path = 'output/result.mp4'
-    video_writer_fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-    video_writer = cv2.VideoWriter(output_file_path, video_writer_fourcc, cap_fps, (int(width), int(height)))
+    # width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+    # height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+    # cap_fps = cap.get(cv2.CAP_PROP_FPS)
+    # output_file_path = 'output/result.mp4'
+    # video_writer_fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    # video_writer = cv2.VideoWriter(output_file_path, video_writer_fourcc, cap_fps, (int(width), int(height)))
 
     print('Press "Esc", "q" or "Q" to exit.')
 
@@ -38,17 +38,17 @@ def main():
         ret_val, img = cap.read()
         result = inference_detector(model, img)
 
-        video_writer.write(result)
+        # video_writer.write(result)
 
         ch = cv2.waitKey(1)
         if ch == 27 or ch == ord('q') or ch == ord('Q'):
             break
 
-        model.show_result(img, result, score_thr=args.score_thr, wait_time=1, show=True)
+        model.show_result(img, result, score_thr=args.score_thr, wait_time=1, show=True, out_file='output/result.mp4')
 
     toc = time.time()
     print('total time:', toc - tic, 'secs')
-    video_writer.release()
+    # video_writer.release()
     print('finish!')
 
 
