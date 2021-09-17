@@ -12,7 +12,7 @@ def parse_args():
     parser.add_argument('video', type=str, help='camera device id')
     parser.add_argument('--config', default='configs/scrfd/scrfd_500m.py', type=str, help='test config file path')
     parser.add_argument('--checkpoint', default='weights/scrfd_500m.pth', type=str, help='checkpoint file')
-    parser.add_argument('--device', type=str, default='cuda:0', help='CPU/CUDA device option')
+    parser.add_argument('--device', type=str, default='cuda', help='CPU/CUDA device option')
     parser.add_argument('--score-thr', type=float, default=0.5, help='bbox score threshold')
     args = parser.parse_args()
     return args
@@ -36,15 +36,17 @@ def main():
     tic = time.time()
     while True:
         ret_val, img = cap.read()
-        result = inference_detector(model, img)
+        if not ret_val:
+            break
 
-        # video_writer.write(result)
+        result = inference_detector(model, img)
 
         ch = cv2.waitKey(1)
         if ch == 27 or ch == ord('q') or ch == ord('Q'):
             break
 
-        model.show_result(img, result, score_thr=args.score_thr, wait_time=1, show=True, out_file='output/result.mp4')
+        final_image_result = model.show_result(img, result, score_thr=args.score_thr, wait_time=1, show=False)
+        video_writer.write(final_image_result)
 
     toc = time.time()
     print('total time:', toc - tic, 'secs')
