@@ -184,6 +184,7 @@ def show_result_pyplot(model,
     cv2.imwrite('output/result.jpg', img)
     plt.figure(figsize=fig_size)
     plt.imshow(mmcv.bgr2rgb(img))
+    cv2.imwrite('result.jpg', img)
     plt.title(title)
     plt.tight_layout()
     plt.show(block=block)
