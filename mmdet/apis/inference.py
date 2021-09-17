@@ -1,5 +1,6 @@
 import warnings
 
+import cv2
 import matplotlib.pyplot as plt
 import mmcv
 import numpy as np
@@ -182,6 +183,7 @@ def show_result_pyplot(model,
     img = model.show_result(img, result, score_thr=score_thr, show=False)
     plt.figure(figsize=fig_size)
     plt.imshow(mmcv.bgr2rgb(img))
+    cv2.imwrite('result.jpg', img)
     plt.title(title)
     plt.tight_layout()
     plt.show(block=block)
